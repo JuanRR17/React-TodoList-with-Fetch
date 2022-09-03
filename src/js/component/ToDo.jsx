@@ -10,11 +10,17 @@ const ToDo = ({
     const handleRemoveButton = () =>{
         handleSetToDoList(toDoList.filter(item=>item.id!==toDo.id))
     }
+   
   return (
     <li className="list-group-item">
         <div className='d-flex justify-content-between'>
             {toDo.string} 
-            <button onClick={handleRemoveButton} type="button" className="btn-close" aria-label="Close"></button>
+            <button 
+            onClick={handleRemoveButton} 
+            type="button" 
+            className="btn-close closeButton" 
+            aria-label="Close">
+            </button>
         </div>
     </li>
   )
