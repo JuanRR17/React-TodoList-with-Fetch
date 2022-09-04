@@ -8,5 +8,8 @@ import "../styles/index.css";
 //import your own components
 import Home from "./component/home.jsx";
 
+//create username
+export const userName = "Juan4";
+
 //render your react application
 ReactDOM.render(<Home />, document.querySelector("#app"));

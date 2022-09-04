@@ -1,7 +1,7 @@
 .closeButton{
     display: none
 }
-li:hover>div>.closeButton{
+li:hover>.closeButton{
     display: block
 }
 /* 
