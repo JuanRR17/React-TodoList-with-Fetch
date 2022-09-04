@@ -16,13 +16,12 @@ const Home = () => {
 
 	//URL
 	const url = `https://assets.breatheco.de/apis/fake/todos/user/${userName}`
-	
-
-	
+		
 	//CHECK IF THE USER IS CREATED and CREATE USER IF NOT
 	useEffect(()=>{
 		//GET
-		const getFetch = fetch(url)
+		const getFetch = 
+		fetch(url)
 		.then(response =>{
 			if(!response.ok){
 				console.log("Response is not ok")
@@ -60,14 +59,16 @@ const Home = () => {
 		
         const getUserList = async () => {
 
-			let userList = await getFetch
-			console.log("userList1:",userList)
-			if(!userList){
+			 let userList
+			console.log("userList1:",await getFetch)
+			if(await getFetch === false){
 				await postFetch
+			}else{
+				userList = await getFetch
 			}
-
+			
 			console.log("userList2:",userList)
-			setTodoList(userList)
+			setTodoList(userList??[])
 		}
 		getUserList();
     },[])
@@ -77,7 +78,7 @@ const Home = () => {
 		const userTodos = async ()=>{
 			console.log("todoList useEffect", todoList)
 
-			const response = fetch(url, {
+			fetch(url, {
 				method: "PUT",
 				body: JSON.stringify(
 				todoList),
