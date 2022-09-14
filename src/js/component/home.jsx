@@ -4,7 +4,6 @@ import Input from "./Input.jsx";
 
 //create your first component
 const Home = () => {
-	// const [inputValue, setInputValue ] = useState('');
 	const [todoList, setTodoList] = useState([]);
 
 	//URL
@@ -67,28 +66,72 @@ const Home = () => {
     },[])
 
 	// FUNCTION THAT DELETE TASKS FROM THE TODO LIST
-	const deleteTask= (e) =>
+	const deleteTask =  (index) =>
 	{
-		const newListOfTodos= todoList.filter((item, idx)=>idx !== parseInt(e.target.id))
+		const newListOfTodos= todoList.filter((_, idx)=>idx !==index)
 		setTodoList(newListOfTodos)
+		//PUTFETCH
+		fetch(url, {
+			method: "PUT",
+			body: JSON.stringify(newListOfTodos),
+			headers: {
+				"Content-Type": "application/json"
+			}
+			})
+			.then(response =>{
+				if(!response.ok){
+					console.log("Response from PUT is not ok")
+					throw Error(response.statusText);
+				}
+				return response.json();
+			})
+			.then(
+				console.log("User list initialized")
+				)
+			.catch(error => {
+				console.log('Looks like there was a problem doing PUT: \n', error);
+				return false
+			})	
 	}
 	
 	//FUNCTION THAT DELETS ALL TASKS FROM THE TODO LIST
-	const cleanTasks = () =>{
-		fetch(url, {
+	const cleanTasks = async () =>{
+		await fetch(url, {
 			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json"
 			}
 		})
 		setTodoList([])
+		//POSTFETCH
+		await fetch(url, {
+			method: "POST",
+			body: JSON.stringify([]),
+			headers: {
+				"Content-Type": "application/json"
+			}
+			})
+			.then(response =>{
+				if(!response.ok){
+					console.log("Response from POST is not ok")
+					throw Error(response.statusText);
+				}
+				return response.json();
+			})
+			.then(
+				console.log("User list initialized")
+				)
+			.catch(error => {
+				console.log('Looks like there was a problem doing POST: \n', error);
+				return false
+			})	
 	}
 
 	// CREATING THE TASK THAT DISPLAYS AS "LI's" IN THE PAGE
 	const listOfTodos= todoList.map((task, index)=>
 	{
 	return <li className="list-group-item d-flex justify-content-between" key={index}>{task.label}
-	<button id={index} className="button btn-close justify-content-end" onClick={deleteTask}></button>
+	<button id={index} className="button btn-close justify-content-end" onClick={()=>deleteTask(index)}></button>
 	</li>
 	})
 	console.log("todoList:", todoList)
